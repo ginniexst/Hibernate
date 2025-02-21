@@ -2,7 +2,9 @@ package ra.com.service.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ra.com.model.Categories;
 import ra.com.model.Product;
+import ra.com.repository.CategoriesRepository;
 import ra.com.repository.ProductRepository;
 import ra.com.service.ProductService;
 
@@ -12,6 +14,8 @@ import java.util.List;
 public class ProductServiceImp implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoriesRepository categoriesRepository;
 
     @Override
     public List<Product> findAll() {
@@ -25,7 +29,14 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public boolean save(Product product) {
-        return productRepository.save(product);
+        Categories catalog = categoriesRepository.findById(product.getCatalog().getCatalogId());
+        Product newProduct = new Product(
+                product.getProductId(),
+                product.getProductName(),
+                product.getPrice(),
+                product.isStatus(),
+                catalog);
+        return productRepository.save(newProduct);
     }
 
     @Override

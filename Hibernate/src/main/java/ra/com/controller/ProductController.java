@@ -3,17 +3,22 @@ package ra.com.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import ra.com.model.Categories;
 import ra.com.model.Product;
+import ra.com.service.CategoriesService;
 import ra.com.service.ProductService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/productsController")
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CategoriesService categoriesService;
 
     @GetMapping("/findAll")
     public String findAllProducts(Model model) {
@@ -24,6 +29,8 @@ public class ProductController {
     @GetMapping("/initCreate")
     public String initCreateProducts(Model model) {
         model.addAttribute("product", new Product());
+        List<Categories> listCategories = categoriesService.findAll();
+        model.addAttribute("listCategories", listCategories);
         return "newProduct";
     }
 
@@ -31,9 +38,9 @@ public class ProductController {
     public String createProduct(Product product) {
         boolean result = productService.save(product);
         if (result) {
-            return "redirect:/productsController/findAll";
+            return "redirect:findAll";
         }
-        return "error";
+        return "newProduct";
     }
 
 }

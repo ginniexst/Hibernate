@@ -34,7 +34,7 @@ public class CategoriesController {
         if (result) {
             return "redirect:findAll";
         }
-        return "errorCreate";
+        return "newCategories";
     }
 
     @GetMapping("/initUpdate")

@@ -10,10 +10,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Create product</title>
 </head>
 <body>
 <form action="<%=request.getContextPath()%>/productsController/create" method="post">
+    <label for="productId">Product Id</label>
+    <input type="text" name="productId" id="productId" /><br>
     <label for="productName">Product Name</label>
     <input type="text" name="productName" id="productName" /><br>
     <label for="price">Price</label>
@@ -22,13 +24,11 @@
     <input type="radio" id="active" name="status" value="true" /><label for="active">Active</label>
     <input type="radio" id="inactive" name="status" value="false"/><label for="inactive">Inactive</label><br>
     <label>Category</label><br>
-<%--    <form:select path="catalog.catalogId">--%>
-<%--        <jsp:useBean id="listCategories" scope="request" type="java.util.List"/>--%>
-<%--        <c:forEach items="${listCategories}" var="catalog">--%>
-<%--            <form:option value="${catalog.catalogId}">${catalog.catalogName}</form:option>--%>
-<%--        </c:forEach>--%>
-<%--        <br>--%>
-<%--    </form:select>--%>
+    <select name="catalog.catalogId" id="catalogId">
+        <c:forEach items="${listCategories}" var="catalog">
+            <option value="${catalog.catalogId}">${catalog.catalogName}</option>
+        </c:forEach>
+    </select>
     <input type="submit" value="Create" />
 </form>
 </body>
